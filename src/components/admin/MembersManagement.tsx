@@ -17,6 +17,7 @@ export default function MembersManagement() {
   const { members, filters, loading } = state;
   const memberFilters = filters.members;
 
+  // State 먼저 선언
   // 필터링된 회원 목록
   const filteredMembers = useMemo(() => {
     return members.filter(member => {

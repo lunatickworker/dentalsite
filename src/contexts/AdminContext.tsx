@@ -53,7 +53,7 @@ export interface Appointment {
   service: string;
   date: string;
   time: string;
-  status: '대기승인' | '예약확인' | '진료중' | '완료' | '취소';
+  status: '예약접수' | '확정' | '승인대기' | '진찰중' | '치료중' | '완료' | '취소' | '노쇼' | '연기' | '보류';
   type: '상담' | '치료' | '일반';
   notes: string;
   createdAt: string;
@@ -292,7 +292,7 @@ function adminReducer(state: AdminState, action: AdminAction): AdminState {
       return {
         ...state,
         appointments: state.appointments.map(apt =>
-          apt.id === action.payload ? { ...apt, status: '예약확인' as const } : apt
+          apt.id === action.payload ? { ...apt, status: '확정' as const } : apt
         ),
       };
     

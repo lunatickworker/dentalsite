@@ -147,7 +147,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
             service: '임플란트 상담',
             date: '2024-12-30',
             time: '10:00',
-            status: '치료중' as const,
+            status: '진찰중' as const,
             type: '상담' as const,
             notes: '하악 어금니 임플란트 상담 희망',
             createdAt: '2024-12-28 14:30',
@@ -162,7 +162,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
             service: '스케일링',
             date: '2024-12-31',
             time: '11:00',
-            status: '완료' as const,
+            status: '확정' as const,
             type: '일반' as const,
             notes: '정기 스케일링 예약',
             createdAt: '2024-12-29 16:45',
@@ -207,7 +207,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
             service: '정기검진',
             date: '2024-12-29',
             time: '09:00',
-            status: '승인대기' as const,
+            status: '노쇼' as const,
             type: '일반' as const,
             notes: '6개월 정기검진 - 연락 불가로 노쇼 처리',
             createdAt: '2024-12-28 16:20',
@@ -373,7 +373,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
   const todayAppointments = state.appointments.filter(apt => apt.date === '2024-12-30');
   const waitingPatients = state.appointments.filter(apt => apt.status === '승인대기');
   const inProgressPatients = state.appointments.filter(apt => ['진찰중', '치료중'].includes(apt.status));
-  const noShowCount = state.appointments.filter(apt => apt.status === '확정').length;
+  const noShowCount = state.appointments.filter(apt => apt.status === '노쇼').length;
   
   const dashboardStats = [
     { 
@@ -426,8 +426,9 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
     dispatch({ type: 'SET_ACTIVE_TAB', payload: tabId });
   };
 
-  const handleAppointmentApprove = (appointmentId: number) => {
-    dispatch({ type: 'APPROVE_APPOINTMENT', payload: appointmentId });
+  // 예약 업데이트 핸들러
+  const handleAppointmentsUpdate = (updatedAppointments: any[]) => {
+    dispatch({ type: 'SET_APPOINTMENTS', payload: updatedAppointments });
   };
 
   const getStatusColor = (status: string) => {
@@ -651,9 +652,9 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
                   </div>
                   
                   {/* Notification badges */}
-                  {tab.id === 'appointments' && state.appointments.filter(apt => apt.status === '승인대기').length > 0 && (
+                  {tab.id === 'appointments' && state.appointments.filter(apt => apt.status === '예약접수').length > 0 && (
                     <div className="absolute -top-2 -right-2 w-7 h-7 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full flex items-center justify-center font-bold shadow-lg ring-2 ring-white animate-bounce">
-                      {state.appointments.filter(apt => apt.status === '승인대기').length}
+                      {state.appointments.filter(apt => apt.status === '예약접수').length}
                     </div>
                   )}
                   {tab.id === 'inquiries' && state.inquiries.filter(inq => inq.status === '답변대기').length > 0 && (
@@ -733,135 +734,100 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
                 </Card>
               ))}
             </div>
-
-            <Card className="shadow-lg border-0 bg-white">
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
-                    <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-                      <Calendar className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900">새로운 예약 접수</p>
-                      <p className="text-sm text-gray-600">박영희님 스케일링 예약 - 방금 전</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-4 p-4 bg-green-50 rounded-lg">
-                    <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900">치료 완료</p>
-                      <p className="text-sm text-gray-600">김미영님 임플란트 시술 완료 - 2시간 전</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-4 p-4 bg-yellow-50 rounded-lg">
-                    <div className="w-10 h-10 bg-yellow-600 rounded-full flex items-center justify-center">
-                      <Star className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900">새로운 후기 등록</p>
-                      <p className="text-sm text-gray-600">이철수님 교정치료 후기 - 1일 전</p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </TabsContent>
 
           {/* Members Management */}
           <TabsContent value="members">
             <Suspense fallback={<LoadingSpinner />}>
-              <ErrorBoundary>
-                <MembersManagement />
-              </ErrorBoundary>
+              <MembersManagement />
             </Suspense>
           </TabsContent>
 
           {/* Doctors Management */}
           <TabsContent value="doctors">
             <Suspense fallback={<LoadingSpinner />}>
-              <ErrorBoundary>
-                <DoctorsManagement />
-              </ErrorBoundary>
+              <DoctorsManagement />
             </Suspense>
           </TabsContent>
 
           {/* Treatment Categories Management */}
           <TabsContent value="treatment-categories">
             <Suspense fallback={<LoadingSpinner />}>
-              <ErrorBoundary>
-                <TreatmentCategoriesManagement />
-              </ErrorBoundary>
+              <TreatmentCategoriesManagement />
             </Suspense>
           </TabsContent>
 
           {/* Treatment Details Management */}
           <TabsContent value="treatment-details">
             <Suspense fallback={<LoadingSpinner />}>
-              <ErrorBoundary>
-                <TreatmentDetailsManagement />
-              </ErrorBoundary>
+              <TreatmentDetailsManagement />
             </Suspense>
           </TabsContent>
 
-          {/* Schedule & Appointments */}
-          <ErrorBoundary>
-            <AdminDashboardScheduleAppointment
-              schedules={state.schedules}
-              appointments={state.appointments}
-              getStatusColor={getStatusColor}
-              handleAppointmentApprove={handleAppointmentApprove}
-            />
-          </ErrorBoundary>
+          {/* Schedule Management */}
+           <TabsContent value="schedules">
+            <Suspense fallback={<LoadingSpinner />}>
+              <AdminDashboardScheduleAppointment 
+                schedules={state.schedules}
+                appointments={state.appointments}
+                getStatusColor={getStatusColor}
+                handleAppointmentApprove={(id: number) => {
+                  const updatedAppointments = state.appointments.map(apt => 
+                    apt.id === id ? { ...apt, status: '확정' as const } : apt
+                  );
+                  dispatch({ type: 'SET_APPOINTMENTS', payload: updatedAppointments });
+                }}
+              />
+            </Suspense>
+          </TabsContent>
+
+          {/* Appointments Management */}
+          <TabsContent value="appointments">
+            <Suspense fallback={<LoadingSpinner />}>
+              <AppointmentsManagement 
+                appointments={state.appointments} 
+                onUpdate={handleAppointmentsUpdate} 
+              />
+            </Suspense>
+          </TabsContent>
 
           {/* Inquiries Management */}
           <TabsContent value="inquiries">
             <Suspense fallback={<LoadingSpinner />}>
-              <ErrorBoundary>
-                <InquiriesManagement />
-              </ErrorBoundary>
+              <InquiriesManagement />
             </Suspense>
           </TabsContent>
 
           {/* Reviews Management */}
           <TabsContent value="reviews">
             <Suspense fallback={<LoadingSpinner />}>
-              <ErrorBoundary>
-                <ReviewsManagement />
-              </ErrorBoundary>
+              <ReviewsManagement />
             </Suspense>
           </TabsContent>
 
           {/* Inventory Management */}
           <TabsContent value="inventory">
             <Suspense fallback={<LoadingSpinner />}>
-              <ErrorBoundary>
-                <InventoryManagement />
-              </ErrorBoundary>
+              <InventoryManagement />
             </Suspense>
           </TabsContent>
 
         </Tabs>
       </main>
 
-      {/* Global Modals */}
+      {/* Admin Modals */}
       <AdminModals />
     </div>
   );
 }
 
-// Main component with Context Provider
-interface AdminDashboardProps {
+// Main component with provider
+export default function AdminDashboardOptimized({ user, onLogout, onGoHome, onDataUpdate }: {
   user: any;
   onLogout: () => void;
   onGoHome?: () => void;
   onDataUpdate?: () => void;
-}
-
-export default function AdminDashboardOptimized({ user, onLogout, onGoHome, onDataUpdate }: AdminDashboardProps) {
+}) {
   return (
     <ErrorBoundary>
       <AdminProvider>

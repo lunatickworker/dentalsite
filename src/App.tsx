@@ -5,7 +5,7 @@ import AboutPage from './components/AboutPage';
 import ServicesPage from './components/ServicesPage';
 import DoctorsPage from './components/DoctorsPage';
 import LoginPage from './components/LoginPage';
-import AdminDashboard from './components/AdminDashboardOptimized';
+import AdminDashboard from './components/AdminDashboardOptimizedEnhanced';
 import Logo from './components/Logo';
 import ReviewsPage from './components/ReviewsPage';
 import NoticePage from './components/NoticePage';

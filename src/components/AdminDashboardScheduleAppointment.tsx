@@ -259,7 +259,7 @@ export default function ScheduleAppointmentTabs({
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-orange-700 font-medium">승인 대기</p>
-                  <p className="text-2xl font-bold text-orange-800">{appointments.filter(apt => apt.status === '대기승인').length}건</p>
+                  <p className="text-2xl font-bold text-orange-800">{appointments.filter(apt => apt.status === '승인대기').length}건</p>
                 </div>
                 <Clock className="w-8 h-8 text-orange-600" />
               </div>
@@ -311,7 +311,7 @@ export default function ScheduleAppointmentTabs({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">전체 상태</SelectItem>
-                  <SelectItem value="대기승인">승인 대기</SelectItem>
+                  <SelectItem value="승인대기">승인 대기</SelectItem>
                   <SelectItem value="예약확인">예약 확정</SelectItem>
                   <SelectItem value="진료중">진료 중</SelectItem>
                   <SelectItem value="완료">진료 완료</SelectItem>
@@ -432,7 +432,7 @@ export default function ScheduleAppointmentTabs({
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center space-x-2">
-                          {appointment.status === '대기승인' && (
+                          {appointment.status === '승인대기' && (
                             <Button
                               size="sm"
                               className="bg-green-600 hover:bg-green-700 text-white"
