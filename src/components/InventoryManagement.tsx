@@ -615,8 +615,7 @@ export default function InventoryManagement({ onClose }: InventoryManagementProp
             status: '승인거부', 
             notes: `${req.notes} [거부사유: ${reason}]`,
             approvedBy: '오진수',
-            approvedDate: new Date().toISOString().slice(0, 16).replace('T', ' '),
-            dispensedDate: null as any
+            approvedDate: new Date().toISOString().slice(0, 16).replace('T', ' ')
           }
         : req
     ));

@@ -16,8 +16,7 @@ import {
 
 // 환자 상태 타입 정의
 type PatientStatus = 
-  | '예약접수' | '확정' | '승인대기' | '진찰중' | '치료중' 
-  | '완료' | '취소' | '노쇼' | '연기' | '보류' | '대기';
+  | '진찰중' | '치료중' | '예약접수' | '확정' | '승인대기' | '완료' | '취소' | '노쇼' | '연기' | '보류' | '대기승인' | '예약확인' | '진료중' | '대기';
 
 // 예약 데이터 타입
 interface Appointment {
@@ -37,14 +36,14 @@ interface Appointment {
 }
 
 interface AppointmentsManagementProps {
-  appointments?: Appointment[];
-  onUpdate?: (appointments: Appointment[]) => void;
+  appointments: Appointment[];
+  onUpdate: (appointments: Appointment[]) => void;
 }
 
 // AppointmentsManagement 컴포넌트
 const AppointmentsManagement: React.FC<AppointmentsManagementProps> = ({ 
   appointments = [],
-  onUpdate = () => {}
+  onUpdate 
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('전체');
@@ -68,8 +67,8 @@ const AppointmentsManagement: React.FC<AppointmentsManagementProps> = ({
   // 병원 프로세스에 맞는 환자 상태 옵션
   const statusOptions: { value: PatientStatus; label: string; color: string; icon: React.ComponentType<any> }[] = [
     { value: '예약접수', label: '예약접수', color: 'bg-blue-100 text-blue-800', icon: Calendar },
+    { value: '승인대기', label: '승인대기', color: 'bg-sky-100 text-sky-800', icon: Clock },
     { value: '확정', label: '확정', color: 'bg-green-100 text-green-800', icon: CheckCircle },
-    { value: '승인대기', label: '승인대기', color: 'bg-yellow-100 text-yellow-800', icon: Clock },
     { value: '대기', label: '대기', color: 'bg-yellow-100 text-yellow-800', icon: Clock },
     { value: '진찰중', label: '진찰중', color: 'bg-purple-100 text-purple-800', icon: Activity },
     { value: '치료중', label: '치료중', color: 'bg-indigo-100 text-indigo-800', icon: Activity },
@@ -77,7 +76,9 @@ const AppointmentsManagement: React.FC<AppointmentsManagementProps> = ({
     { value: '취소', label: '취소', color: 'bg-gray-100 text-gray-800', icon: XCircle },
     { value: '노쇼', label: '노쇼', color: 'bg-red-100 text-red-800', icon: UserX },
     { value: '연기', label: '연기', color: 'bg-orange-100 text-orange-800', icon: RotateCcw },
-    { value: '보류', label: '보류', color: 'bg-slate-100 text-slate-800', icon: PauseCircle }
+    { value: '보류', label: '보류', color: 'bg-slate-100 text-slate-800', icon: PauseCircle },
+    { value: '예약확인', label: '예약확인', color: 'bg-lime-100 text-lime-800', icon: CheckCircle },
+    { value: '진료중', label: '진료중', color: 'bg-violet-100 text-violet-800', icon: Activity }
   ];
 
   // 상태별 통계 계산
@@ -462,7 +463,7 @@ const AppointmentsManagement: React.FC<AppointmentsManagementProps> = ({
                         <div className="flex space-x-2">
                           <Select
                             value={appointment.status}
-                            onValueChange={(value) => handleStatusChange(appointment.id, value as PatientStatus)}
+                            onValueChange={(value: string) => handleStatusChange(appointment.id, value as PatientStatus)}
                           >
                             <SelectTrigger className="w-32">
                               <SelectValue />
@@ -544,7 +545,7 @@ const AppointmentsManagement: React.FC<AppointmentsManagementProps> = ({
             
             <div>
               <Label htmlFor="doctorName">담당의</Label>
-              <Select value={newAppointment.doctorName || ''} onValueChange={(value) => setNewAppointment({...newAppointment, doctorName: value})}>
+              <Select value={newAppointment.doctorName || ''} onValueChange={(value: string) => setNewAppointment({...newAppointment, doctorName: value})}>
                 <SelectTrigger>
                   <SelectValue placeholder="담당의 선택" />
                 </SelectTrigger>
@@ -587,7 +588,7 @@ const AppointmentsManagement: React.FC<AppointmentsManagementProps> = ({
             
             <div>
               <Label htmlFor="status">상태</Label>
-              <Select value={newAppointment.status || '예약접수'} onValueChange={(value) => setNewAppointment({...newAppointment, status: value as PatientStatus})}>
+              <Select value={newAppointment.status || '예약접수'} onValueChange={(value: string) => setNewAppointment({...newAppointment, status: value as PatientStatus})}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -603,7 +604,7 @@ const AppointmentsManagement: React.FC<AppointmentsManagementProps> = ({
             
             <div>
               <Label htmlFor="type">예약 유형</Label>
-              <Select value={newAppointment.type || '일반'} onValueChange={(value) => setNewAppointment({...newAppointment, type: value as any})}>
+              <Select value={newAppointment.type || '일반'} onValueChange={(value: string) => setNewAppointment({...newAppointment, type: value as any})}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>

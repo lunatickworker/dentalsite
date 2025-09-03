@@ -160,7 +160,7 @@ export default function Navigation({ currentPage, onPageChange, user, onShowLogi
           .sort((a, b) => (a.order || 0) - (b.order || 0))
           .map(detail => ({
             id: detail.id,
-            name: detail.title,
+            name: detail.title || detail.name,
             description: detail.description
           }));
 
@@ -385,7 +385,6 @@ export default function Navigation({ currentPage, onPageChange, user, onShowLogi
 
                   {/* 진료과목 메가 메뉴 */}
                   {item.id === 'services' && item.hasSubmenu && (hoveredMenu === item.id || forceShowServices) && (
-                    process.env.NODE_ENV === 'development' &&
                     console.log(`Rendering mega menu - item.id: ${item.id}, hasSubmenu: ${item.hasSubmenu}, hoveredMenu: ${hoveredMenu}, force: ${forceShowServices}`) ||
                     <div 
                       className="absolute top-full left-0 w-[800px] bg-white shadow-2xl border border-gray-200 rounded-2xl mt-2 p-8 z-50 animate-dropdown"

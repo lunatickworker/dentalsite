@@ -8,7 +8,7 @@ import {
   Activity, CheckCircle, Clock, TrendingUp, Heart as HeartIcon, Settings,
   UserX
 } from 'lucide-react';
-import { AdminProvider, useAdmin } from '../contexts/AdminContext';
+import { useAdmin } from '../contexts/AdminContext';
 import ErrorBoundary from './ErrorBoundary';
 import AdminDashboardScheduleAppointment from './AdminDashboardScheduleAppointment';
 import AdminModals from './admin/AdminModals';
@@ -237,7 +237,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
             service: '신경치료',
             date: '2024-12-30',
             time: '13:00',
-            status: '승인대기' as const,
+            status: '대기' as const,
             type: '치료' as const,
             notes: '근관치료 2차',
             createdAt: '2024-12-29 10:10',
@@ -258,36 +258,6 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
             createdAt: '2024-12-29 17:55',
             noShowCount: 0,
             lastNoShowDate: null
-          },
-          {
-            id: 9,
-            patientName: '조민준',
-            patientPhone: '010-9012-3456',
-            doctorName: '오진수',
-            service: '임플란트 시술',
-            date: '2024-12-30',
-            time: '15:30',
-            status: '보류' as const,
-            type: '치료' as const,
-            notes: '혈압 조절 후 시술 예정',
-            createdAt: '2024-12-29 11:20',
-            noShowCount: 0,
-            lastNoShowDate: null
-          },
-          {
-            id: 10,
-            patientName: '김영수',
-            patientPhone: '010-0123-4567',
-            doctorName: '김민지',
-            service: '스케일링',
-            date: '2024-12-28',
-            time: '10:00',
-            status: '취소' as const,
-            type: '일반' as const,
-            notes: '갑작스런 출장으로 취소',
-            createdAt: '2024-12-27 15:30',
-            noShowCount: 2,
-            lastNoShowDate: '2024-11-15'
           }
         ];
 
@@ -369,9 +339,9 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
     loadInitialData();
   }, [dispatch]);
 
-  // Dashboard statistics (실제 데이터 기반으로 계산)
+  // Dashboard statistics
   const todayAppointments = state.appointments.filter(apt => apt.date === '2024-12-30');
-  const waitingPatients = state.appointments.filter(apt => apt.status === '승인대기');
+  const waitingPatients = state.appointments.filter(apt => apt.status === '대기');
   const inProgressPatients = state.appointments.filter(apt => ['진찰중', '치료중'].includes(apt.status));
   const noShowCount = state.appointments.filter(apt => apt.status === '노쇼').length;
   
@@ -426,18 +396,11 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
     dispatch({ type: 'SET_ACTIVE_TAB', payload: tabId });
   };
 
-  // 예약 업데이트 핸들러
-  const handleAppointmentsUpdate = (updatedAppointments: any[]) => {
-    dispatch({ type: 'SET_APPOINTMENTS', payload: updatedAppointments });
-  };
-
   const getStatusColor = (status: string) => {
     const colors = {
-      // 기존 상태
       '활성': 'bg-green-100 text-green-800',
       '비활성': 'bg-gray-100 text-gray-800',
       '정상': 'bg-green-100 text-green-800',
-      // 새로운 환자 상태
       '예약접수': 'bg-blue-100 text-blue-800',
       '확정': 'bg-green-100 text-green-800',
       '대기': 'bg-yellow-100 text-yellow-800',
@@ -447,11 +410,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
       '취소': 'bg-gray-100 text-gray-800',
       '노쇼': 'bg-red-100 text-red-800',
       '연기': 'bg-orange-100 text-orange-800',
-      '보류': 'bg-slate-100 text-slate-800',
-      // 레거시 상태 (하위 호환)
-      '예약확인': 'bg-green-100 text-green-800',
-      '진료중': 'bg-purple-100 text-purple-800',
-      '승인대기': 'bg-orange-100 text-orange-800'
+      '보류': 'bg-slate-100 text-slate-800'
     };
     return colors[status as keyof typeof colors] || 'bg-gray-100 text-gray-800';
   };
@@ -711,22 +670,19 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
                         </p>
                         <div className="flex items-center space-x-2">
                           <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
-                          <span className={`text-sm font-medium px-2 py-1 rounded-full ${stat.trend === 'up' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                            {stat.change}
-                          </span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="flex-1 bg-gray-200 rounded-full h-2">
-                            <div 
-                              className={`h-2 rounded-full bg-gradient-to-r ${stat.gradient} transition-all duration-300`}
-                              style={{ width: `${stat.percentage}%` }}
-                            ></div>
+                          <div className={`flex items-center text-sm ${stat.trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
+                            <TrendingUp className={`w-4 h-4 mr-1 ${stat.trend === 'down' ? 'rotate-180' : ''}`} />
+                            <span>{stat.change}</span>
                           </div>
-                          <span className="text-xs text-gray-500">{stat.percentage}%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div 
+                            className={`h-2 rounded-full bg-gradient-to-r ${stat.gradient}`}
+                            style={{ width: `${stat.percentage}%` }}
+                          />
                         </div>
                       </div>
-                      
-                      <div className={`p-4 rounded-2xl bg-gradient-to-br ${stat.gradient} shadow-lg`}>
+                      <div className={`w-16 h-16 rounded-full bg-gradient-to-r ${stat.gradient} flex items-center justify-center shadow-lg`}>
                         <stat.icon className="w-8 h-8 text-white" />
                       </div>
                     </div>
@@ -734,6 +690,19 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
                 </Card>
               ))}
             </div>
+
+            {/* Quick Action Schedule Component */}
+            <AdminDashboardScheduleAppointment 
+              schedules={state.schedules || []}
+              appointments={state.appointments || []}
+              getStatusColor={getStatusColor}
+              handleAppointmentApprove={(id: number) => {
+                const updatedAppointments = (state.appointments || []).map(apt => 
+                  apt.id === id ? { ...apt, status: '확정' as const } : apt
+                );
+                dispatch({ type: 'SET_APPOINTMENTS', payload: updatedAppointments });
+              }}
+            />
           </TabsContent>
 
           {/* Members Management */}
@@ -764,30 +733,21 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
             </Suspense>
           </TabsContent>
 
-          {/* Schedule Management */}
-           <TabsContent value="schedules">
-            <Suspense fallback={<LoadingSpinner />}>
-              <AdminDashboardScheduleAppointment 
-                schedules={state.schedules}
-                appointments={state.appointments}
-                getStatusColor={getStatusColor}
-                handleAppointmentApprove={(id: number) => {
-                  const updatedAppointments = state.appointments.map(apt => 
-                    apt.id === id ? { ...apt, status: '확정' as const } : apt
-                  );
-                  dispatch({ type: 'SET_APPOINTMENTS', payload: updatedAppointments });
-                }}
-              />
-            </Suspense>
+          {/* Schedules Management (placeholder) */}
+          <TabsContent value="schedules">
+            <div className="bg-white rounded-2xl shadow-lg border border-blue-100 p-8">
+              <h2 className="text-2xl font-bold text-blue-800 mb-4">스케줄 관리</h2>
+              <p className="text-gray-600">스케줄 관리 기능은 개발 중입니다.</p>
+            </div>
           </TabsContent>
 
           {/* Appointments Management */}
           <TabsContent value="appointments">
             <Suspense fallback={<LoadingSpinner />}>
               <AppointmentsManagement 
-                appointments={state.appointments} 
-                onUpdate={handleAppointmentsUpdate} 
-              />
+            appointments={state.appointments}
+            onUpdate={(appointments) => dispatch({ type: 'SET_APPOINTMENTS', payload: appointments })}
+          />
             </Suspense>
           </TabsContent>
 
@@ -815,14 +775,13 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
         </Tabs>
       </main>
 
-      {/* Admin Modals */}
       <AdminModals />
     </div>
   );
 }
 
-// Main component with provider
-export default function AdminDashboardOptimized({ user, onLogout, onGoHome, onDataUpdate }: {
+// Main component with provider wrapping
+export default function AdminDashboard({ user, onLogout, onGoHome, onDataUpdate }: {
   user: any;
   onLogout: () => void;
   onGoHome?: () => void;
@@ -830,14 +789,12 @@ export default function AdminDashboardOptimized({ user, onLogout, onGoHome, onDa
 }) {
   return (
     <ErrorBoundary>
-      <AdminProvider>
-        <DashboardContent 
-          user={user} 
-          onLogout={onLogout} 
-          onGoHome={onGoHome} 
-          onDataUpdate={onDataUpdate} 
-        />
-      </AdminProvider>
+      <DashboardContent 
+        user={user} 
+        onLogout={onLogout} 
+        onGoHome={onGoHome} 
+        onDataUpdate={onDataUpdate} 
+      />
     </ErrorBoundary>
   );
 }

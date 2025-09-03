@@ -323,7 +323,7 @@ export default function RichEditorDialog({ isOpen, onClose, editingItem, onSave 
                 <CardContent className="p-4">
                   <Textarea 
                     name="faq" 
-                    defaultValue={editingItem?.faq?.map((item: any) => `${item.question} ${item.answer}`).join('|') || ''} 
+                    defaultValue={editingItem?.faq?.map(item => `${item.question} ${item.answer}`).join('|') || ''} 
                     placeholder="질문과 답변을 입력하세요. 형식: 질문? 답변|다음질문? 다음답변"
                     rows={6}
                     className="border-purple-200 focus:border-purple-500"

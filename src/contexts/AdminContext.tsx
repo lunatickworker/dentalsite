@@ -53,7 +53,7 @@ export interface Appointment {
   service: string;
   date: string;
   time: string;
-  status: '예약접수' | '확정' | '승인대기' | '진찰중' | '치료중' | '완료' | '취소' | '노쇼' | '연기' | '보류' | '대기';
+  status: '진찰중' | '치료중' | '예약접수' | '확정' | '승인대기' | '완료' | '취소' | '노쇼' | '연기' | '보류' | '대기승인' | '예약확인' | '진료중' | '대기';
   type: '상담' | '일반' | '치료' | '응급';
   notes: string;
   createdAt: string;

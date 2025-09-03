@@ -147,7 +147,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
             service: '임플란트 상담',
             date: '2024-12-30',
             time: '10:00',
-            status: '치료중' as const,
+            status: '진찰중' as const,
             type: '상담' as const,
             notes: '하악 어금니 임플란트 상담 희망',
             createdAt: '2024-12-28 14:30',
@@ -162,7 +162,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
             service: '스케일링',
             date: '2024-12-31',
             time: '11:00',
-            status: '완료' as const,
+            status: '확정' as const,
             type: '일반' as const,
             notes: '정기 스케일링 예약',
             createdAt: '2024-12-29 16:45',
@@ -207,7 +207,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
             service: '정기검진',
             date: '2024-12-29',
             time: '09:00',
-            status: '승인대기' as const,
+            status: '노쇼' as const,
             type: '일반' as const,
             notes: '6개월 정기검진 - 연락 불가로 노쇼 처리',
             createdAt: '2024-12-28 16:20',
@@ -237,7 +237,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
             service: '신경치료',
             date: '2024-12-30',
             time: '13:00',
-            status: '승인대기' as const,
+            status: '대기' as const,
             type: '치료' as const,
             notes: '근관치료 2차',
             createdAt: '2024-12-29 10:10',
@@ -371,9 +371,9 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
 
   // Dashboard statistics (실제 데이터 기반으로 계산)
   const todayAppointments = state.appointments.filter(apt => apt.date === '2024-12-30');
-  const waitingPatients = state.appointments.filter(apt => apt.status === '승인대기');
+  const waitingPatients = state.appointments.filter(apt => apt.status === '대기');
   const inProgressPatients = state.appointments.filter(apt => ['진찰중', '치료중'].includes(apt.status));
-  const noShowCount = state.appointments.filter(apt => apt.status === '확정').length;
+  const noShowCount = state.appointments.filter(apt => apt.status === '노쇼').length;
   
   const dashboardStats = [
     { 
@@ -450,7 +450,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
       // 레거시 상태 (하위 호환)
       '예약확인': 'bg-green-100 text-green-800',
       '진료중': 'bg-purple-100 text-purple-800',
-      '승인대기': 'bg-orange-100 text-orange-800'
+      '대기승인': 'bg-orange-100 text-orange-800'
     };
     return colors[status as keyof typeof colors] || 'bg-gray-100 text-gray-800';
   };
@@ -651,9 +651,9 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
                   </div>
                   
                   {/* Notification badges */}
-                  {tab.id === 'appointments' && state.appointments.filter(apt => apt.status === '승인대기').length > 0 && (
+                  {tab.id === 'appointments' && state.appointments.filter(apt => apt.status === '대기승인').length > 0 && (
                     <div className="absolute -top-2 -right-2 w-7 h-7 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full flex items-center justify-center font-bold shadow-lg ring-2 ring-white animate-bounce">
-                      {state.appointments.filter(apt => apt.status === '승인대기').length}
+                      {state.appointments.filter(apt => apt.status === '대기승인').length}
                     </div>
                   )}
                   {tab.id === 'inquiries' && state.inquiries.filter(inq => inq.status === '답변대기').length > 0 && (

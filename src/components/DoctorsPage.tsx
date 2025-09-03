@@ -9,11 +9,10 @@ import Breadcrumb, { getBreadcrumbForPage } from './Breadcrumb';
 interface DoctorsPageProps {
   currentTab?: string;
   onPageChange?: (page: string) => void;
-  doctors?: any[];
 }
 
-export default function DoctorsPage({ currentTab = 'profile', onPageChange, doctors: propDoctors }: DoctorsPageProps) {
-  const defaultDoctors = [
+export default function DoctorsPage({ currentTab = 'profile', onPageChange }: DoctorsPageProps) {
+  const doctors = [
     {
       id: 1,
       name: '오진수',
@@ -114,9 +113,6 @@ export default function DoctorsPage({ currentTab = 'profile', onPageChange, doct
       }
     }
   ];
-
-  // Use prop doctors if available, fallback to default doctors
-  const doctors = propDoctors && propDoctors.length > 0 ? propDoctors : defaultDoctors;
 
   const teamMembers = [
     {
@@ -225,7 +221,7 @@ export default function DoctorsPage({ currentTab = 'profile', onPageChange, doct
                           <p className="text-lg text-blue-600 font-medium mb-4">{doctor.position}</p>
                           
                           <div className="flex flex-wrap gap-2 mb-4">
-                            {doctor.specialties.map((specialty: string, i: number) => (
+                            {doctor.specialties.map((specialty, i) => (
                               <Badge key={i} variant="secondary">
                                 {specialty}
                               </Badge>
@@ -250,7 +246,7 @@ export default function DoctorsPage({ currentTab = 'profile', onPageChange, doct
                         <div>
                           <h4 className="font-semibold text-gray-900 mb-2">주요 학력</h4>
                           <ul className="space-y-1 text-sm text-gray-600">
-                            {doctor.education.slice(0, 2).map((edu: string, i:number) => (
+                            {doctor.education.slice(0, 2).map((edu, i) => (
                               <li key={i} className="flex items-start space-x-2">
                                 <div className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
                                 <span>{edu}</span>

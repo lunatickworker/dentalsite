@@ -17,7 +17,7 @@ function VisuallyHidden({ children, ...props }: React.ComponentProps<"span">) {
         height: "1px",
         overflow: "hidden",
         position: "absolute",
-        whiteSpace: "nowrap",
+        whitespace: "nowrap",
         width: "1px",
       }}
     >

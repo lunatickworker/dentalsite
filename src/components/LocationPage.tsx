@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { MapPin, Clock, Phone, Mail, Car, Train, Bus, Navigation } from 'lucide-react';
+import exampleImage from 'figma:asset/a76935f2fb51d3a18ab4c268bf127eafbf8294a3.png';
 import Breadcrumb, { getBreadcrumbForPage } from './Breadcrumb';
 
 interface LocationPageProps {
