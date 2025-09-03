@@ -17,7 +17,7 @@ import {
 // 환자 상태 타입 정의
 type PatientStatus = 
   | '예약접수' | '확정' | '승인대기' | '진찰중' | '치료중' 
-  | '완료' | '취소' | '노쇼' | '연기' | '보류';
+  | '완료' | '취소' | '노쇼' | '연기' | '보류' | '대기';
 
 // 예약 데이터 타입
 interface Appointment {
@@ -37,14 +37,15 @@ interface Appointment {
 }
 
 interface AppointmentsManagementProps {
-  appointments: Appointment[];
-  onUpdate: (appointments: Appointment[]) => void;
+  appointments?: Appointment[];
+  onUpdate?: (appointments: Appointment[]) => void;
 }
 
-export default function AppointmentsManagement({ 
+// AppointmentsManagement 컴포넌트
+const AppointmentsManagement: React.FC<AppointmentsManagementProps> = ({ 
   appointments = [],
-  onUpdate 
-}: AppointmentsManagementProps) {
+  onUpdate = () => {}
+}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('전체');
   const [dateFilter, setDateFilter] = useState<string>('전체');
@@ -69,6 +70,7 @@ export default function AppointmentsManagement({
     { value: '예약접수', label: '예약접수', color: 'bg-blue-100 text-blue-800', icon: Calendar },
     { value: '확정', label: '확정', color: 'bg-green-100 text-green-800', icon: CheckCircle },
     { value: '승인대기', label: '승인대기', color: 'bg-yellow-100 text-yellow-800', icon: Clock },
+    { value: '대기', label: '대기', color: 'bg-yellow-100 text-yellow-800', icon: Clock },
     { value: '진찰중', label: '진찰중', color: 'bg-purple-100 text-purple-800', icon: Activity },
     { value: '치료중', label: '치료중', color: 'bg-indigo-100 text-indigo-800', icon: Activity },
     { value: '완료', label: '완료', color: 'bg-emerald-100 text-emerald-800', icon: CheckCircle },
@@ -638,4 +640,6 @@ export default function AppointmentsManagement({
       </Dialog>
     </div>
   );
-}
+};
+
+export default AppointmentsManagement;
