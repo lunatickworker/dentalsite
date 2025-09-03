@@ -162,7 +162,7 @@ export default function AdminDashboard({ user, onLogout, onGoHome }: AdminDashbo
       service: '스케일링',
       date: '2024-12-31',
       time: '11:00',
-      status: '대기승인',
+      status: '승인대기',
       type: '일반',
       notes: '정기 스케일링 예약',
       createdAt: '2024-12-29 16:45'
@@ -472,11 +472,10 @@ export default function AdminDashboard({ user, onLogout, onGoHome }: AdminDashbo
       '진료중': 'bg-yellow-100 text-yellow-800',
       '완료': 'bg-green-100 text-green-800',
       '취소': 'bg-red-100 text-red-800',
-      '대기승인': 'bg-orange-100 text-orange-800',
+      '승인대기': 'bg-orange-100 text-orange-800',
       '답변완료': 'bg-green-100 text-green-800',
       '답변대기': 'bg-orange-100 text-orange-800',
       '승인완료': 'bg-green-100 text-green-800',
-      '승인대기': 'bg-orange-100 text-orange-800'
     };
     return colors[status as keyof typeof colors] || 'bg-gray-100 text-gray-800';
   };
@@ -869,7 +868,7 @@ export default function AdminDashboard({ user, onLogout, onGoHome }: AdminDashbo
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">전체</SelectItem>
-                    <SelectItem value="pending">대기승인</SelectItem>
+                    <SelectItem value="pending">승인대기</SelectItem>
                     <SelectItem value="confirmed">예약확인</SelectItem>
                     <SelectItem value="progress">진료중</SelectItem>
                     <SelectItem value="completed">완료</SelectItem>

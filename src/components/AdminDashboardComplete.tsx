@@ -245,7 +245,7 @@ export default function AdminDashboard({ user, onLogout, onGoHome, onDataUpdate 
       service: '스케일링',
       date: '2024-12-31',
       time: '11:00',
-      status: '대기승인',
+      status: '승인대기',
       type: '일반',
       notes: '정기 스케일링 예약',
       createdAt: '2024-12-29 16:45'
@@ -397,7 +397,7 @@ export default function AdminDashboard({ user, onLogout, onGoHome, onDataUpdate 
       '진료중': 'bg-yellow-100 text-yellow-800',
       '완료': 'bg-green-100 text-green-800',
       '취소': 'bg-red-100 text-red-800',
-      '대기승인': 'bg-orange-100 text-orange-800',
+      '승인대기': 'bg-orange-100 text-orange-800',
       '답변완료': 'bg-green-100 text-green-800',
       '답변대기': 'bg-orange-100 text-orange-800',
       '승인완료': 'bg-green-100 text-green-800',
@@ -720,9 +720,9 @@ export default function AdminDashboard({ user, onLogout, onGoHome, onDataUpdate 
                   </div>
                   
                   {/* Notification badges for pending items */}
-                  {tab.id === 'appointments' && appointments.filter(apt => apt.status === '대기승인').length > 0 && (
+                  {tab.id === 'appointments' && appointments.filter(apt => apt.status === '승인대기').length > 0 && (
                     <div className="absolute -top-2 -right-2 w-7 h-7 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full flex items-center justify-center font-bold shadow-lg ring-2 ring-white animate-bounce">
-                      {appointments.filter(apt => apt.status === '대기승인').length}
+                      {appointments.filter(apt => apt.status === '승인대기').length}
                     </div>
                   )}
                   {tab.id === 'inquiries' && inquiries.filter(inq => inq.status === '답변대기').length > 0 && (
@@ -869,7 +869,7 @@ export default function AdminDashboard({ user, onLogout, onGoHome, onDataUpdate 
                       <span className="text-orange-900">대기 중인 업무</span>
                     </div>
                     <Badge className="bg-orange-100 text-orange-800">
-                      {appointments.filter(apt => apt.status === '대기승인').length + 
+                      {appointments.filter(apt => apt.status === '승인대기').length + 
                        inquiries.filter(inq => inq.status === '답변대기').length +
                        reviews.filter(review => review.status === '승인대기').length}건
                     </Badge>
@@ -889,7 +889,7 @@ export default function AdminDashboard({ user, onLogout, onGoHome, onDataUpdate 
                       </div>
                       <div className="flex items-center space-x-2">
                         <Badge className="bg-orange-100 text-orange-800">
-                          {appointments.filter(apt => apt.status === '대기승인').length}건
+                          {appointments.filter(apt => apt.status === '승인대기').length}건
                         </Badge>
                         <ChevronRight className="w-4 h-4 text-orange-600 group-hover:translate-x-1 transition-transform" />
                       </div>
@@ -1351,7 +1351,7 @@ export default function AdminDashboard({ user, onLogout, onGoHome, onDataUpdate 
                 </div>
                 <div className="flex items-center space-x-3">
                   <Badge className="bg-red-100 text-red-800">
-                    승인 대기: {appointments.filter(apt => apt.status === '대기승인').length}건
+                    승인 대기: {appointments.filter(apt => apt.status === '승인대기').length}건
                   </Badge>
                 </div>
               </div>
@@ -1395,7 +1395,7 @@ export default function AdminDashboard({ user, onLogout, onGoHome, onDataUpdate 
                         </TableCell>
                         <TableCell>
                           <div className="flex space-x-1">
-                            {appointment.status === '대기승인' && (
+                            {appointment.status === '승인대기' && (
                               <Button 
                                 size="sm" 
                                 onClick={() => handleAppointmentApprove(appointment.id)}

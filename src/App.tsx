@@ -16,19 +16,12 @@ import TreatmentDetailPage from './components/TreatmentDetailPage';
 import GalleryPage from './components/GalleryPage';
 import { Button } from './components/ui/button';
 import { treatmentAPI, doctorAPI, noticeAPI, reviewAPI, appointmentAPI, contactAPI, initAPI, healthAPI } from './utils/api';
-import { AdminProvider } from './contexts/AdminContext';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('admin');
-  const [user, setUser] = useState<any>({
-    id: 999,
-    name: '관리자',
-    email: 'admin@faith-dental.com',
-    phone: '031-651-3054',
-    loginType: 'admin'
-  });
+  const [currentPage, setCurrentPage] = useState('home');
+  const [user, setUser] = useState<any>(null);
   const [showLogin, setShowLogin] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   
   // Supabase 연동 상태
   const [loading, setLoading] = useState(true);
@@ -306,16 +299,9 @@ export default function App() {
         }
         if (treatmentData.data.details) {
           // details 객체를 배열로 변환
-          const detailsArray = Object.values(treatmentData.data.details) as Array<{
-            id: string;
-            title: string;
-            category: string;
-            description: string;
-            order: number;
-            status: string;
-          }>;
+          const detailsArray = Object.values(treatmentData.data.details);
           if (detailsArray.length > 0) {
-            setTreatmentDetails(detailsArray);
+            setTreatmentDetails(detailsArray as any);
           }
         }
       }
@@ -384,17 +370,9 @@ export default function App() {
   };
 
   const handleLogout = () => {
-    // 로그아웃 후에도 관리자 상태 유지 (테스트 목적)
-    const adminUser = {
-      id: 999,
-      name: '관리자',
-      email: 'admin@faith-dental.com',
-      phone: '031-651-3054',
-      loginType: 'admin'
-    };
-    setUser(adminUser);
-    setIsAdmin(true);
-    setCurrentPage('admin');
+    setUser(null);
+    setIsAdmin(false);
+    setCurrentPage('home');
   };
 
   const handleAdminAccess = () => {
@@ -448,11 +426,7 @@ export default function App() {
 
   // 관리자 페이지 렌더링
   if (isAdmin && currentPage === 'admin') {
-    return (
-      <AdminProvider>
-        <AdminDashboard user={user} onLogout={handleLogout} onGoHome={() => handlePageChange('home')} onDataUpdate={refreshData} />
-      </AdminProvider>
-    );
+    return <AdminDashboard user={user} onLogout={handleLogout} onGoHome={() => handlePageChange('home')} onDataUpdate={refreshData} />;
   }
 
   const renderPage = () => {
@@ -502,7 +476,7 @@ export default function App() {
       case 'doctors-education':
       case 'doctors-experience':
       case 'doctors-awards':
-        return <DoctorsPage currentTab="profile" onPageChange={handlePageChange} doctors={doctors} />;
+        return <DoctorsPage currentTab="profile" onPageChange={handlePageChange} />;
       
       // 커뮤니티 관련 페이지들 (갤러리는 병원소개로 이동)
       case 'gallery':

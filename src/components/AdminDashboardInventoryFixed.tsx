@@ -165,7 +165,7 @@ export default function AdminDashboard({ user, onLogout, onGoHome, onDataUpdate 
       service: '스케일링',
       date: '2024-12-31',
       time: '11:00',
-      status: '대기승인',
+      status: '승인대기',
       type: '일반',
       notes: '정기 스케일링 예약',
       createdAt: '2024-12-29 16:45'
@@ -317,11 +317,10 @@ export default function AdminDashboard({ user, onLogout, onGoHome, onDataUpdate 
       '진료중': 'bg-yellow-100 text-yellow-800',
       '완료': 'bg-green-100 text-green-800',
       '취소': 'bg-red-100 text-red-800',
-      '대기승인': 'bg-orange-100 text-orange-800',
+      '승인대기': 'bg-orange-100 text-orange-800',
       '답변완료': 'bg-green-100 text-green-800',
       '답변대기': 'bg-orange-100 text-orange-800',
       '승인완료': 'bg-green-100 text-green-800',
-      '승인대기': 'bg-orange-100 text-orange-800'
     };
     return colors[status as keyof typeof colors] || 'bg-gray-100 text-gray-800';
   };
@@ -575,9 +574,9 @@ export default function AdminDashboard({ user, onLogout, onGoHome, onDataUpdate 
                   )}
                   
                   {/* Notification badges for pending items */}
-                  {tab.id === 'appointments' && appointments.filter(apt => apt.status === '대기승인').length > 0 && (
+                  {tab.id === 'appointments' && appointments.filter(apt => apt.status === '승인대기').length > 0 && (
                     <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full flex items-center justify-center font-bold shadow-lg ring-2 ring-white animate-bounce">
-                      {appointments.filter(apt => apt.status === '대기승인').length}
+                      {appointments.filter(apt => apt.status === '승인대기').length}
                     </div>
                   )}
                   {tab.id === 'inquiries' && inquiries.filter(inq => inq.status === '답변대기').length > 0 && (
@@ -665,7 +664,7 @@ export default function AdminDashboard({ user, onLogout, onGoHome, onDataUpdate 
                     >
                       <span>승인 대기 예약</span>
                       <Badge className="bg-orange-100 text-orange-800">
-                        {appointments.filter(apt => apt.status === '대기승인').length}건
+                        {appointments.filter(apt => apt.status === '승인대기').length}건
                       </Badge>
                     </div>
                     <div 
