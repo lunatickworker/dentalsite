@@ -401,7 +401,6 @@ export default function AdminDashboard({ user, onLogout, onGoHome, onDataUpdate 
       '답변완료': 'bg-green-100 text-green-800',
       '답변대기': 'bg-orange-100 text-orange-800',
       '승인완료': 'bg-green-100 text-green-800',
-      '승인대기': 'bg-orange-100 text-orange-800'
     };
     return colors[status as keyof typeof colors] || 'bg-gray-100 text-gray-800';
   };
