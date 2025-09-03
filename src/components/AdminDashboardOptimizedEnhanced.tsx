@@ -477,7 +477,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
         </div>
         
         <div className="px-6 py-6 relative z-10">
-          <div className="flex flex-wrap gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-4">
             {[
               { 
                 id: 'dashboard', 
@@ -588,23 +588,23 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id)}
                   className={`
-                    group relative flex items-center px-5 py-4 rounded-2xl border-2 transition-all duration-300 transform hover:scale-105
+                    group relative flex flex-col items-center justify-center px-4 py-6 rounded-2xl border-2 transition-all duration-300 transform hover:scale-105 h-32
                     ${isActive 
                       ? `${tab.bgColor} ${tab.color} border-current font-semibold ring-2 ring-white/60 shadow-xl bg-gradient-to-br ${tab.gradient} text-white` 
                       : `bg-white/90 backdrop-blur-sm text-gray-600 border-white/60 ${tab.hoverColor} hover:shadow-lg hover:border-white`
                     }
-                    min-w-[160px] justify-center backdrop-blur-sm
+                    backdrop-blur-sm
                   `}
                 >
-                  <div className="flex flex-col items-center space-y-2">
+                  <div className="flex flex-col items-center space-y-3">
                     <div className={`p-3 rounded-xl transition-all duration-300 ${isActive ? 'bg-white/20 shadow-sm' : 'bg-white/60 group-hover:bg-white/80'}`}>
                       <IconComponent className={`w-6 h-6 transition-all duration-300 ${isActive ? 'text-white' : `${tab.color} group-hover:scale-110`}`} />
                     </div>
                     <div className="text-center">
-                      <div className={`text-sm font-semibold ${isActive ? 'text-white' : `${tab.color} group-hover:text-gray-900`}`}>
+                      <div className={`text-sm font-semibold ${isActive ? 'text-white' : `${tab.color} group-hover:text-gray-900`} leading-tight`}>
                         {tab.label}
                       </div>
-                      <div className={`text-xs ${isActive ? 'text-white/80' : 'text-gray-500'}`}>
+                      <div className={`text-xs ${isActive ? 'text-white/80' : 'text-gray-500'} leading-tight mt-1`}>
                         {tab.description}
                       </div>
                     </div>
