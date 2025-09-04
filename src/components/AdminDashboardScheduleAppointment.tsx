@@ -84,79 +84,76 @@ export default function AdminDashboardScheduleAppointment({
       </div>
 
       {/* 예약 통계 카드 - 반응형 가로 1열 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 w-full">
-        <Card className="w-full bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-blue-700 font-medium">오늘 예약</p>
-                <p className="text-2xl font-bold text-blue-800">{safeAppointments.filter(apt => apt.date === '2024-12-30').length}건</p>
+      <div className="grid grid-cols-1 gap-4 w-full md:grid-cols-1 lg:grid-cols-1">
+        <div className="flex flex-row gap-4 w-full">
+          <Card className="flex-1 bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-blue-700 font-medium">오늘 예약</p>
+                  <p className="text-2xl font-bold text-blue-800">{safeAppointments.filter(apt => apt.date === '2024-12-30').length}건</p>
+                </div>
+                <Calendar className="w-8 h-8 text-blue-600" />
               </div>
-              <Calendar className="w-8 h-8 text-blue-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="w-full bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-purple-700 font-medium">진찰중</p>
-                <p className="text-2xl font-bold text-purple-800">{statusStats['진찰중'] || 0}건</p>
+            </CardContent>
+          </Card>
+          <Card className="flex-1 bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-purple-700 font-medium">진찰중</p>
+                  <p className="text-2xl font-bold text-purple-800">{statusStats['진찰중'] || 0}건</p>
+                </div>
+                <Activity className="w-8 h-8 text-purple-600" />
               </div>
-              <Activity className="w-8 h-8 text-purple-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="w-full bg-gradient-to-br from-indigo-50 to-indigo-100 border-indigo-200">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-indigo-700 font-medium">치료중</p>
-                <p className="text-2xl font-bold text-indigo-800">{statusStats['치료중'] || 0}건</p>
+            </CardContent>
+          </Card>
+          <Card className="flex-1 bg-gradient-to-br from-indigo-50 to-indigo-100 border-indigo-200">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-indigo-700 font-medium">치료중</p>
+                  <p className="text-2xl font-bold text-indigo-800">{statusStats['치료중'] || 0}건</p>
+                </div>
+                <PlayCircle className="w-8 h-8 text-indigo-600" />
               </div>
-              <PlayCircle className="w-8 h-8 text-indigo-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="w-full bg-gradient-to-br from-green-50 to-green-100 border-green-200">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-green-700 font-medium">완료</p>
-                <p className="text-2xl font-bold text-green-800">{statusStats['완료'] || 0}건</p>
+            </CardContent>
+          </Card>
+          <Card className="flex-1 bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-green-700 font-medium">완료</p>
+                  <p className="text-2xl font-bold text-green-800">{statusStats['완료'] || 0}건</p>
+                </div>
+                <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
-              <CheckCircle className="w-8 h-8 text-green-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="w-full bg-gradient-to-br from-red-50 to-red-100 border-red-200">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-red-700 font-medium">노쇼</p>
-                <p className="text-2xl font-bold text-red-800">{noShowCount}건</p>
-                <p className="text-xs text-red-600">({noShowRate}%)</p>
+            </CardContent>
+          </Card>
+          <Card className="flex-1 bg-gradient-to-br from-red-50 to-red-100 border-red-200">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-red-700 font-medium">노쇼</p>
+                  <p className="text-2xl font-bold text-red-800">{noShowCount}건</p>
+                  <p className="text-xs text-red-600">({noShowRate}%)</p>
+                </div>
+                <UserX className="w-8 h-8 text-red-600" />
               </div>
-              <UserX className="w-8 h-8 text-red-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="w-full bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-slate-700 font-medium">총 예약</p>
-                <p className="text-2xl font-bold text-slate-800">{safeAppointments.length}건</p>
+            </CardContent>
+          </Card>
+          <Card className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-slate-700 font-medium">총 예약</p>
+                  <p className="text-2xl font-bold text-slate-800">{safeAppointments.length}건</p>
+                </div>
+                <BarChart3 className="w-8 h-8 text-slate-600" />
               </div>
-              <BarChart3 className="w-8 h-8 text-slate-600" />
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
       {/* 노쇼 관리 카드 */}
