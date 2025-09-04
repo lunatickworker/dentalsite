@@ -83,9 +83,9 @@ export default function AdminDashboardScheduleAppointment({
         </div>
       </div>
 
-      {/* 예약 통계 카드 - 무조건 가로 1열 */}
-      <div className="flex flex-row gap-4 w-full overflow-x-auto pb-2">
-        <Card className="flex-1 min-w-[220px] max-w-xs bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+      {/* 예약 통계 카드 - 반응형 가로 1열 */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 w-full">
+        <Card className="w-full bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -97,7 +97,7 @@ export default function AdminDashboardScheduleAppointment({
           </CardContent>
         </Card>
 
-        <Card className="flex-1 min-w-[220px] max-w-xs bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+        <Card className="w-full bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -109,7 +109,7 @@ export default function AdminDashboardScheduleAppointment({
           </CardContent>
         </Card>
 
-        <Card className="flex-1 min-w-[220px] max-w-xs bg-gradient-to-br from-indigo-50 to-indigo-100 border-indigo-200">
+        <Card className="w-full bg-gradient-to-br from-indigo-50 to-indigo-100 border-indigo-200">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -121,7 +121,7 @@ export default function AdminDashboardScheduleAppointment({
           </CardContent>
         </Card>
 
-        <Card className="flex-1 min-w-[220px] max-w-xs bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+        <Card className="w-full bg-gradient-to-br from-green-50 to-green-100 border-green-200">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -133,7 +133,7 @@ export default function AdminDashboardScheduleAppointment({
           </CardContent>
         </Card>
 
-        <Card className="flex-1 min-w-[220px] max-w-xs bg-gradient-to-br from-red-50 to-red-100 border-red-200">
+        <Card className="w-full bg-gradient-to-br from-red-50 to-red-100 border-red-200">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -146,7 +146,7 @@ export default function AdminDashboardScheduleAppointment({
           </CardContent>
         </Card>
 
-        <Card className="flex-1 min-w-[220px] max-w-xs bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200">
+        <Card className="w-full bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
