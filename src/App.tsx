@@ -5,7 +5,7 @@ import AboutPage from './components/AboutPage';
 import ServicesPage from './components/ServicesPage';
 import DoctorsPage from './components/DoctorsPage';
 import LoginPage from './components/LoginPage';
-import AdminDashboard from './components/AdminDashboardOptimizedEnhanced';
+import AdminDashboard from './components/AdminDashboardOptimizedEnhanced_Fixed';
 import Logo from './components/Logo';
 import ReviewsPage from './components/ReviewsPage';
 import NoticePage from './components/NoticePage';
@@ -495,6 +495,7 @@ export default function App() {
       case 'doctors-education':
       case 'doctors-experience':
       case 'doctors-awards':
+        return <DoctorsPage currentTab="profile" onPageChange={handlePageChange} />;
       
       // 커뮤니티 관련 페이지들 (갤러리는 병원소개로 이동)
       case 'gallery':
