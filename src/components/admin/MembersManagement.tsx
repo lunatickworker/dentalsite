@@ -12,9 +12,15 @@ import {
 import { useAdmin, Member } from '../../contexts/AdminContext';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 
-export default function MembersManagement() {
+interface MembersManagementProps {
+  members: Member[];
+  onUpdate: (members: Member[]) => void;
+}
+
+export default function MembersManagement({ members: propMembers, onUpdate }: MembersManagementProps) {
   const { state, dispatch } = useAdmin();
-  const { members, filters, loading } = state;
+  const { filters, loading } = state;
+  const members = propMembers || state.members;
   const memberFilters = filters.members;
 
   // State 먼저 선언

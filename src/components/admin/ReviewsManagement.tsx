@@ -11,9 +11,15 @@ import {
 } from 'lucide-react';
 import { useAdmin, Review } from '../../contexts/AdminContext';
 
-export default function ReviewsManagement() {
+interface ReviewsManagementProps {
+  reviews: Review[];
+  onUpdate: (reviews: Review[]) => void;
+}
+
+export default function ReviewsManagement({ reviews: propReviews, onUpdate }: ReviewsManagementProps) {
   const { state, dispatch } = useAdmin();
-  const { reviews, filters, loading } = state;
+  const { filters, loading } = state;
+  const reviews = propReviews || state.reviews;
   const reviewFilters = filters.reviews;
 
   // 필터링된 후기 목록

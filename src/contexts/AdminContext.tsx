@@ -42,7 +42,7 @@ export interface Schedule {
   doctorName: string;
   timeSlots: string[];
   bookedSlots: string[];
-  status: '정상' | '휴진' | '특별진료';
+  status: '정상' | '휴진' | '특별진료' | '점심시간' | "연수참석";
 }
 
 export interface Appointment {

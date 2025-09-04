@@ -11,9 +11,15 @@ import {
 } from 'lucide-react';
 import { useAdmin, Inquiry } from '../../contexts/AdminContext';
 
-export default function InquiriesManagement() {
+interface InquiriesManagementProps {
+  inquiries: Inquiry[];
+  onUpdate: (inquiries: Inquiry[]) => void;
+}
+
+export default function InquiriesManagement({ inquiries: propInquiries, onUpdate }: InquiriesManagementProps) {
   const { state, dispatch } = useAdmin();
-  const { inquiries, filters, loading } = state;
+  const { filters, loading } = state;
+  const inquiries = propInquiries || state.inquiries;
   const inquiryFilters = filters.inquiries;
 
   // 필터링된 문의 목록

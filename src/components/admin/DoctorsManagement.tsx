@@ -10,9 +10,15 @@ import {
 import { useAdmin, Doctor } from '../../contexts/AdminContext';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 
-export default function DoctorsManagement() {
+interface DoctorsManagementProps {
+  doctors: Doctor[];
+  onUpdate: (doctors: Doctor[]) => void;
+}
+
+export default function DoctorsManagement({ doctors: propDoctors, onUpdate }: DoctorsManagementProps) {
   const { state, dispatch } = useAdmin();
-  const { doctors, loading } = state;
+  const { loading } = state;
+  const doctors = propDoctors || state.doctors;
 
   // 통계 계산
   const stats = useMemo(() => {

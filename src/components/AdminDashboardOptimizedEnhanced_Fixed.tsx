@@ -720,7 +720,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
               <Suspense fallback={<LoadingSpinner />}>
                 <MembersManagement 
                   members={state.members}
-                  onUpdate={(members) => dispatch({ type: 'SET_MEMBERS', payload: members })}
+                  onUpdate={(members: any) => dispatch({ type: 'SET_MEMBERS', payload: members })}
                 />
               </Suspense>
             </ErrorBoundary>
@@ -732,7 +732,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
               <Suspense fallback={<LoadingSpinner />}>
                 <DoctorsManagement 
                   doctors={state.doctors}
-                  onUpdate={(doctors) => dispatch({ type: 'SET_DOCTORS', payload: doctors })}
+                  onUpdate={(doctors: any) => dispatch({ type: 'SET_DOCTORS', payload: doctors })}
                 />
               </Suspense>
             </ErrorBoundary>
@@ -787,7 +787,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
               <Suspense fallback={<LoadingSpinner />}>
                 <InquiriesManagement 
                   inquiries={state.inquiries}
-                  onUpdate={(inquiries) => dispatch({ type: 'SET_INQUIRIES', payload: inquiries })}
+                  onUpdate={(inquiries: any) => dispatch({ type: 'SET_INQUIRIES', payload: inquiries })}
                 />
               </Suspense>
             </ErrorBoundary>
@@ -799,7 +799,7 @@ function DashboardContent({ user, onLogout, onGoHome, onDataUpdate }: {
               <Suspense fallback={<LoadingSpinner />}>
                 <ReviewsManagement 
                   reviews={state.reviews}
-                  onUpdate={(reviews) => dispatch({ type: 'SET_REVIEWS', payload: reviews })}
+                  onUpdate={(reviews: any) => dispatch({ type: 'SET_REVIEWS', payload: reviews })}
                 />
               </Suspense>
             </ErrorBoundary>
