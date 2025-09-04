@@ -5,8 +5,8 @@ import { Input } from './ui/input';
 import { Badge } from './ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { 
-  Calendar, Plus, CheckCircle, 
+import {
+  Calendar, Plus, CheckCircle,
   Download, Filter, UserCheck, BarChart3, Search, Phone,
   Clock, Activity, UserX, History, TrendingDown, AlertTriangle,
   PlayCircle, XCircle, RotateCcw, PauseCircle
@@ -35,11 +35,11 @@ const PATIENT_STATUS = {
 
 type PatientStatus = keyof typeof PATIENT_STATUS;
 
-export default function AdminDashboardScheduleAppointment({ 
-  schedules = [], 
-  appointments = [], 
-  getStatusColor, 
-  handleAppointmentApprove 
+export default function AdminDashboardScheduleAppointment({
+  schedules = [],
+  appointments = [],
+  getStatusColor,
+  handleAppointmentApprove
 }: ScheduleAppointmentProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -51,7 +51,7 @@ export default function AdminDashboardScheduleAppointment({
   // 노쇼 통계 계산
   const noShowCount = safeAppointments.filter(apt => apt.status === '노쇼').length;
   const noShowRate = safeAppointments.length > 0 ? ((noShowCount / safeAppointments.length) * 100).toFixed(1) : '0';
-  
+
   // 상태별 통계
   const statusStats = Object.keys(PATIENT_STATUS).reduce((acc, status) => {
     acc[status] = safeAppointments.filter(apt => apt.status === status).length;
@@ -83,9 +83,11 @@ export default function AdminDashboardScheduleAppointment({
         </div>
       </div>
 
-      {/* 예약 통계 카드 */}
-      <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+      // ...existing code...
+
+      {/* 예약 통계 카드 - 가로 스크롤 1열 */}
+      <div className="flex flex-row gap-4 overflow-x-auto pb-2">
+        <Card className="min-w-[220px] bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -97,7 +99,7 @@ export default function AdminDashboardScheduleAppointment({
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+        <Card className="min-w-[220px] bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -109,7 +111,7 @@ export default function AdminDashboardScheduleAppointment({
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-indigo-50 to-indigo-100 border-indigo-200">
+        <Card className="min-w-[220px] bg-gradient-to-br from-indigo-50 to-indigo-100 border-indigo-200">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -121,7 +123,7 @@ export default function AdminDashboardScheduleAppointment({
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+        <Card className="min-w-[220px] bg-gradient-to-br from-green-50 to-green-100 border-green-200">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -133,7 +135,7 @@ export default function AdminDashboardScheduleAppointment({
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-red-50 to-red-100 border-red-200">
+        <Card className="min-w-[220px] bg-gradient-to-br from-red-50 to-red-100 border-red-200">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -146,7 +148,7 @@ export default function AdminDashboardScheduleAppointment({
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200">
+        <Card className="min-w-[220px] bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -175,13 +177,13 @@ export default function AdminDashboardScheduleAppointment({
                 <span className="text-lg font-bold text-red-700">{noShowRate}%</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
+                <div
                   className="bg-gradient-to-r from-red-500 to-red-600 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${Math.min(parseFloat(noShowRate), 100)}%` }}
                 />
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600">노쇼 환자 수</span>
@@ -192,10 +194,10 @@ export default function AdminDashboardScheduleAppointment({
                 <span>전월 대비 {Math.random() > 0.5 ? '감소' : '증가'}</span>
               </div>
             </div>
-            
+
             <div className="space-y-2">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="w-full border-red-300 text-red-700 hover:bg-red-50"
                 onClick={() => setFilterStatus('노쇼')}
               >
@@ -220,7 +222,7 @@ export default function AdminDashboardScheduleAppointment({
                 className="pl-10 border-cyan-200 focus:ring-cyan-500 focus:border-cyan-500"
               />
             </div>
-            
+
             <Select value={filterStatus} onValueChange={setFilterStatus}>
               <SelectTrigger className="w-full md:w-48 border-cyan-200">
                 <SelectValue placeholder="상태별 필터" />
@@ -234,7 +236,7 @@ export default function AdminDashboardScheduleAppointment({
                 ))}
               </SelectContent>
             </Select>
-            
+
             <Button variant="outline" className="border-cyan-200 hover:bg-cyan-50">
               <Filter className="w-4 h-4 mr-2" />
               고급 필터
@@ -253,7 +255,7 @@ export default function AdminDashboardScheduleAppointment({
             </div>
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-600">
-                총 {safeAppointments.filter(apt => 
+                총 {safeAppointments.filter(apt =>
                   filterStatus === 'all' || apt.status === filterStatus
                 ).length}건
               </span>
@@ -276,7 +278,7 @@ export default function AdminDashboardScheduleAppointment({
               </TableHeader>
               <TableBody>
                 {safeAppointments
-                  .filter(apt => 
+                  .filter(apt =>
                     filterStatus === 'all' || apt.status === filterStatus
                   )
                   .filter(apt =>
@@ -287,97 +289,97 @@ export default function AdminDashboardScheduleAppointment({
                   )
                   .slice(0, 10) // 대시보드에서는 최대 10개만 표시
                   .map((appointment) => (
-                  <TableRow key={appointment.id} className="hover:bg-cyan-50/30">
-                    <TableCell>
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-                          {appointment.patientName.charAt(0)}
-                        </div>
-                        <div>
-                          <p className="font-semibold text-gray-900">{appointment.patientName}</p>
-                          <div className="flex items-center space-x-1 text-sm text-gray-600">
-                            <Phone className="w-3 h-3" />
-                            <span>{appointment.patientPhone}</span>
+                    <TableRow key={appointment.id} className="hover:bg-cyan-50/30">
+                      <TableCell>
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                            {appointment.patientName.charAt(0)}
+                          </div>
+                          <div>
+                            <p className="font-semibold text-gray-900">{appointment.patientName}</p>
+                            <div className="flex items-center space-x-1 text-sm text-gray-600">
+                              <Phone className="w-3 h-3" />
+                              <span>{appointment.patientPhone}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="space-y-1">
-                        <p className="font-semibold text-gray-900">{appointment.date}</p>
-                        <div className="flex items-center space-x-1 text-sm text-gray-600">
-                          <Clock className="w-3 h-3" />
-                          <span>{appointment.time}</span>
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-1">
+                          <p className="font-semibold text-gray-900">{appointment.date}</p>
+                          <div className="flex items-center space-x-1 text-sm text-gray-600">
+                            <Clock className="w-3 h-3" />
+                            <span>{appointment.time}</span>
+                          </div>
                         </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <UserCheck className="w-4 h-4 text-gray-500" />
-                        <span className="font-medium text-gray-700">{appointment.doctorName}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="space-y-1">
-                        <Badge variant="outline" className="text-blue-700 border-blue-200 bg-blue-50">
-                          {appointment.service}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-2">
+                          <UserCheck className="w-4 h-4 text-gray-500" />
+                          <span className="font-medium text-gray-700">{appointment.doctorName}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-1">
+                          <Badge variant="outline" className="text-blue-700 border-blue-200 bg-blue-50">
+                            {appointment.service}
+                          </Badge>
+                          {appointment.notes && (
+                            <p className="text-sm text-gray-600 truncate max-w-xs" title={appointment.notes}>
+                              {appointment.notes}
+                            </p>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-2">
+                          {(() => {
+                            const status = appointment.status as PatientStatus;
+                            const statusInfo = PATIENT_STATUS[status] || PATIENT_STATUS['예약접수'];
+                            const IconComponent = statusInfo.icon;
+                            return (
+                              <>
+                                <IconComponent className="w-4 h-4" />
+                                <Badge className={statusInfo.color} variant="outline">
+                                  {status}
+                                </Badge>
+                              </>
+                            );
+                          })()}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className={
+                          appointment.type === '상담' ? 'text-purple-700 border-purple-200 bg-purple-50' :
+                            appointment.type === '치료' ? 'text-green-700 border-green-200 bg-green-50' :
+                              'text-gray-700 border-gray-200 bg-gray-50'
+                        }>
+                          {appointment.type}
                         </Badge>
-                        {appointment.notes && (
-                          <p className="text-sm text-gray-600 truncate max-w-xs" title={appointment.notes}>
-                            {appointment.notes}
-                          </p>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        {(() => {
-                          const status = appointment.status as PatientStatus;
-                          const statusInfo = PATIENT_STATUS[status] || PATIENT_STATUS['예약접수'];
-                          const IconComponent = statusInfo.icon;
-                          return (
-                            <>
-                              <IconComponent className="w-4 h-4" />
-                              <Badge className={statusInfo.color} variant="outline">
-                                {status}
-                              </Badge>
-                            </>
-                          );
-                        })()}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className={
-                        appointment.type === '상담' ? 'text-purple-700 border-purple-200 bg-purple-50' :
-                        appointment.type === '치료' ? 'text-green-700 border-green-200 bg-green-50' :
-                        'text-gray-700 border-gray-200 bg-gray-50'
-                      }>
-                        {appointment.type}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-1">
-                        {appointment.status === '예약접수' && (
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-1">
+                          {appointment.status === '예약접수' && (
+                            <Button
+                              size="sm"
+                              className="bg-green-600 hover:bg-green-700 text-white"
+                              onClick={() => handleAppointmentApprove(appointment.id)}
+                            >
+                              <CheckCircle className="w-3 h-3 mr-1" />
+                              승인
+                            </Button>
+                          )}
                           <Button
                             size="sm"
-                            className="bg-green-600 hover:bg-green-700 text-white"
-                            onClick={() => handleAppointmentApprove(appointment.id)}
+                            variant="outline"
+                            className="border-gray-300"
                           >
-                            <CheckCircle className="w-3 h-3 mr-1" />
-                            승인
+                            상세
                           </Button>
-                        )}
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-gray-300"
-                        >
-                          상세
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </div>
